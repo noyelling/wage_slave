@@ -20,7 +20,19 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Configuration
+
+```ruby
+WageSlave.configure do | config |
+  config.financial_institution                  = "ANZ" // Name of your bank
+  config.bank_code                              = "123-456" // i.e. BSB, Sort code etc
+  config.user_id                                = "12345678" // i.e. CRN, Acc no. etc
+  config.description                            = "A default description for all WageSlave transactions"
+  config.xero_consumer_key                      = "YOUR_XERO_CONSUMER_KEY"
+  config.xero_consumer_secret                   = "YOUR_XERO_CONSUMER_SECRET"
+  config.xero_pem_file_location                 = "YOUR_PEM_FILE_LOCATION"
+end
+```
 
 ## Development
 
