@@ -25,8 +25,8 @@ class WageSlave::Invoice
   # account_code     = 240
   # name             = invoice.name
 
-  def build_invoice
-    ::XERO.Invoice.build(
+  def build
+    WageSlave.configuration.xero.Invoice.build(
       :type => "ACCREC", :date => Date.today, :due_date => self.due_date, :line_amount_types => "Inclusive", 
       :line_items => {:description => self.item_description, :quantity => self.item_quantity, :unit_amount => self.item_amount, 
       :account_code => self.account_code}, :contact => {:name => self.name}, :status => "AUTHORISED"

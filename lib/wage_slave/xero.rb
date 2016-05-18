@@ -1,0 +1,5 @@
+module WageSlave
+
+	
+
+end

@@ -76,16 +76,15 @@ describe WageSlave do
       WageSlave.configuration.description.must_equal "A new description"
     end
 
-    it "allows the programmer to configure the xero keys" do
-      WageSlave.configure do | config |
-        config.xero_consumer_key = "XERO_CONSUMER_KEY"
-        config.xero_consumer_secret = "XERO_CONSUMER_SECRET"
-        config.xero_pem_file_location = "XERO_PEM_FILE_LOCATION"
-      end
+  end
 
-      WageSlave.configuration.xero_consumer_key.must_equal "XERO_CONSUMER_KEY"
-      WageSlave.configuration.xero_consumer_secret.must_equal "XERO_CONSUMER_SECRET"
-      WageSlave.configuration.xero_pem_file_location.must_equal "XERO_PEM_FILE_LOCATION"
+  describe '#configure_xero' do
+
+    it "allows the programmer to configure xero" do
+      WageSlave.configure_xero "test", "test", "test"
+
+      WageSlave.configuration.xero.must_be_instance_of Xeroizer::PrivateApplication
+
     end
 
   end

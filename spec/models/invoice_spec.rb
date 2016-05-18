@@ -43,4 +43,14 @@ describe WageSlave::Invoice do
 		invoice.account_code.must_equal 240
 	end
 
+	describe "#build" do
+
+		it "builds a Xeroizer Invoice Object" do
+			WageSlave.configure_xero "test", "test", "test"
+			xero_invoice = invoice.build
+			xero_invoice.type.must_equal "ACCREC"
+		end
+
+	end
+
 end
