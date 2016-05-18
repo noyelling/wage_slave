@@ -22,7 +22,7 @@ module WageSlave
     def initialize
       @financial_institution = nil
       @bank_code = nil
-      @user_id = nil
+      @user_id = "000001"
       @user_name = nil
       @description = "Payroll"
       @xero_consumer_key = nil

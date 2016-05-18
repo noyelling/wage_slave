@@ -6,5 +6,6 @@ require 'wage_slave/configuration'
 
 # Require modules
 require 'wage_slave/models/invoice'
+require 'wage_slave/models/payment'
 require 'wage_slave/payroll'
 

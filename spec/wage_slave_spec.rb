@@ -21,7 +21,7 @@ describe WageSlave do
     end
 
     it "has a default user_id of nil" do
-      WageSlave.configuration.user_id.must_equal nil
+      WageSlave.configuration.user_id.must_equal "000001"
     end
 
     it "has a default description of 'Payroll'" do
