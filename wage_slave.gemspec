@@ -33,4 +33,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "xeroizer", "~> 2.16"
   spec.add_dependency "aba", "~> 0.4"
+  spec.add_dependency "dotenv", "~> 2.1.1"
 end

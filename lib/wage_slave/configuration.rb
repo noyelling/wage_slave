@@ -17,18 +17,18 @@ module WageSlave
       :description,
       :xero_consumer_key,
       :xero_consumer_secret,
-      :xero_pem_file_location)
+      :xero_pem_file_location,
+      :xero)
 
     def initialize
       @financial_institution = nil
       @bank_code = nil
-      @user_id = nil
+      @user_id = "000001"
       @user_name = nil
       @description = "Payroll"
-      @xero_consumer_key = nil
-      @xero_consumer_secret = nil
-      @xero_consumer_pem_file_location = nil
+      @xero
     end
+
   end
 
   ##
@@ -42,6 +42,10 @@ module WageSlave
 
     def configuration
       @configuration ||= Configuration.new
+    end
+
+    def configure_xero consumer_key, consumer_secret, pem_file_location
+      self.configuration.xero = Xeroizer::PrivateApplication.new consumer_key, consumer_secret, pem_file_location
     end
 
     def reset
