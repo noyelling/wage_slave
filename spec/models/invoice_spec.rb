@@ -45,10 +45,30 @@ describe WageSlave::Invoice do
 
 	describe "#build" do
 
-		it "builds a Xeroizer Invoice Object" do
+		before :each do
 			WageSlave.configure_xero "test", "test", "test"
-			xero_invoice = invoice.build
-			xero_invoice.type.must_equal "ACCREC"
+		end
+
+		it "sets the invoice type to ACCREC" do
+			xero = invoice.build
+			xero.type.must_equal "ACCREC"
+		end
+
+		it "sets the due date" do
+			xero = invoice.build
+			xero.due_date.must_equal Date.today
+		end
+
+		it "creates a single line item" do
+			xero = invoice.build
+			xero.line_items.length.must_equal 1
+		end
+
+		it "creates a line item with description, quantity, unit_amount and account_code" do
+			xero = invoice.build
+			xero.line_items.first.description.must_equal "No Yelling Commission"
+			xero.line_items.first.quantity.must_equal 1
+			xero.line_items.first.account_code.must_equal 240
 		end
 
 	end
