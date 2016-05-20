@@ -25,7 +25,7 @@ module WageSlave
     end
 
     def xero
-      return @xeroizer
+      return @xeroizer || Xeroizer::PrivateApplication.new
     end
 
   end
