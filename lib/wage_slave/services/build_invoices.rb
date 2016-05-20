@@ -1,25 +1,28 @@
-class WageSlave::BuildInvoices
+module WageSlave
 
-	attr_accessor :payments
+  class BuildInvoices
 
-	def initialize(payments)
-		@payments = payments
-	end
+    include WageSlave::Base
 
-	def build_invoices(item_description, due_date, item_quantity, account_code)
-
-		@payments.map { |instructor| 
-      WageSlave::Invoice.new({
-        name: "Test Name", 
-        email: instructor[1][0]["email"], 
-        item_amount: instructor[1][0]["commission"], 
-				due_date: due_date, 
-        item_description: item_description, 
-        item_quantity: item_quantity, 
-        account_code: account_code 
-			}).build
-    }
-
-	end
+    def call payments
+      payments.map { | p |
+        WageSlave.configuration.xero.Invoice.build(
+          type: "ACCREC",
+          status: "AUTHORISED",
+          line_amount_types: "Inclusive",
+          date: Date.today,
+          due_date: p[:due_date],
+          contact: { name: p[:name] },
+          line_items: {
+            description: p[:description],
+            quantity: p[:quantity],
+            unit_amount: p[:amount],
+            account_code: p[:account_code]
+          }
+        ) 
+      }
+    end
+      
+  end
 
 end
