@@ -17,7 +17,15 @@ describe WageSlave::BuildInvoices do
 	end
 
 	it "will build an array of Xeroizer Invoice Objects" do
-		WageSlave.configure_xero "test", "test", "test"
+
+    WageSlave.configure do | config |
+      config.xero = {
+        consumer_key: "test",
+        consumer_secret: "test",
+        pem_file_location: "test",
+      }
+    end
+
 		payments = WageSlave::BuildInvoices.new(data)
 		xero_invoices = payments.build_invoices(params[:item_description], params[:due_date], params[:item_quantity], params[:account_code])
 		xero_invoices.must_be_instance_of Array

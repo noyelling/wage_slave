@@ -27,10 +27,19 @@ class WageSlave::Invoice
 
   def build
     WageSlave.configuration.xero.Invoice.build(
-      :type => "ACCREC", :date => Date.today, :due_date => self.due_date, :line_amount_types => "Inclusive", 
-      :line_items => {:description => self.item_description, :quantity => self.item_quantity, :unit_amount => self.item_amount, 
-      :account_code => self.account_code}, :contact => {:name => self.name}, :status => "AUTHORISED"
-      )
+      :type => "ACCREC", 
+      :date => Date.today, 
+      :contact => {:name => self.name}, 
+      :status => "AUTHORISED",
+      :due_date => self.due_date, 
+      :line_amount_types => "Inclusive", 
+      :line_items => { 
+        :description => self.item_description, 
+        :quantity => self.item_quantity, 
+        :unit_amount => self.item_amount, 
+        :account_code => self.account_code
+      }
+    )
   end
 
 end

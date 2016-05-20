@@ -46,7 +46,13 @@ describe WageSlave::Invoice do
 	describe "#build" do
 
 		before :each do
-			WageSlave.configure_xero "test", "test", "test"
+      WageSlave.configure do | config |
+        config.xero = {
+          consumer_key: "test",
+          consumer_secret: "test",
+          pem_file_location: "test",
+        }
+      end
 		end
 
 		it "sets the invoice type to ACCREC" do

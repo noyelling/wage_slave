@@ -8,17 +8,16 @@ Dotenv.load
 
 # Configure Application with Demo API Keys
 WageSlave.configure do | config |
-	config.financial_institution = "ANZ"
-	config.bank_code 						 = "123-456"
-	config.user_id							 = "000001"
-	config.description					 = "No Yelling Commission"
+  config.financial_institution = "ANZ"
+  config.bank_code 						 = "123-456"
+  config.user_id							 = "000001"
+  config.description					 = "No Yelling Commission"
+  config.xero = { 
+    consumer_key: ENV['DEMO_XERO_CONSUMER_KEY'],
+    consumer_secret: ENV['DEMO_XERO_CONSUMER_SECRET'],
+    pem_file_location: File.expand_path("../../", __FILE__) + ENV['XERO_PEM_FILE_LOCATION']
+  }
 end
-
-WageSlave.configure_xero(
-  ENV['DEMO_XERO_CONSUMER_KEY'], 
-  ENV['DEMO_XERO_CONSUMER_SECRET'], 
-  File.expand_path("../../", __FILE__) + ENV['XERO_PEM_FILE_LOCATION']
-)
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
