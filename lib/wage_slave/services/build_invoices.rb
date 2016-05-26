@@ -16,7 +16,7 @@ module WageSlave
           line_items: {
             description: p[:description],
             quantity: p[:quantity],
-            unit_amount: p[:amount],
+            unit_amount: p[:unit_amount],
             account_code: p[:account_code]
           }
         ) 
