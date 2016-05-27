@@ -11,5 +11,6 @@ require 'wage_slave/payroll'
 # Require services
 require 'wage_slave/services/base'
 require 'wage_slave/services/build_invoices'
+require 'wage_slave/services/save_invoices'
 require 'wage_slave/services/build_payments'
 
