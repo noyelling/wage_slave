@@ -7,7 +7,9 @@ require 'wage_slave'
 require 'dotenv'
 Dotenv.load
 
+require 'mocha'
 require 'minitest'
 require 'minitest/spec'
+require 'mocha/mini_test'
 require 'minitest/autorun'
 require 'minitest/pride'
