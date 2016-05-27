@@ -7,7 +7,7 @@ describe WageSlave::SaveInvoices do
     { due_date: Date.today, name: "Robert Tulis", description: "No Yelling commission", quantity: 1, unit_amount: 100, account_code: 240 },
     { due_date: Date.today, name: "Justin Maher", description: "No Yelling commission", quantity: 1, unit_amount: 100, account_code: 240 },
     { due_date: Date.today, name: "Joanne Donovan", description: "No Yelling commission", quantity: 1, unit_amount: 100, account_code: 240 },
-    { due_date: Date.today, name: "Mike Stanley", description: "No Yelling commission", quantity: 1, unit_amount: 100, account_code: 240 },
+    { due_date: Date.today, name: "Mike Stanley", description: "No Yelling commission", quantity: 1, unit_amount: 100, account_code: 240 }
   ]}
 
   let(:invoices) {
