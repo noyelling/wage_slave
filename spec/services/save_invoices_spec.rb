@@ -41,10 +41,10 @@ describe WageSlave::SaveInvoices do
 
   it "will report errors if the records are invalid" do
 
-    invalid_data = data.map { |d| d[:name] = nil }
+    invalid_data = [{ due_date: Date.today, name: nil, description: "No Yelling commission", quantity: 1, unit_amount: 100, account_code: 240 }]
 
     # Invalidate invoices
-    invoices = WageSlave::BuildInvoices.call data
+    invoices = WageSlave::BuildInvoices.call invalid_data
 
     invoices.each do | invoice |
       invoice.valid?.must_equal false
