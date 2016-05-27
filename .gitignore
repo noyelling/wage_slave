@@ -16,3 +16,6 @@
 .DS_Store
 .env
 *.pem
+.idea
+.idea/**/*
+.idea/*

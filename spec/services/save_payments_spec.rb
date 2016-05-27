@@ -38,21 +38,4 @@ describe WageSlave::SavePayments do
 
   end
 
-  it "will report errors if the records are invalid" do
-
-    invalid_data = data.map { | d | d[:account_code] = nil }
-
-    # Invalidate Payments
-    payments = WageSlave::BuildPayments.call data
-
-    # payments.each do |payment|
-    #   payment.valid?.must_equal false
-    # end
-
-    saved_payments = WageSlave::SavePayments.call payments
-
-    saved_payments.must_equal false
-
-  end
-
 end
