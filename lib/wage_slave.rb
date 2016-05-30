@@ -9,8 +9,8 @@ require 'wage_slave/payroll'
 require 'wage_slave/aba'
 
 # Require Aba 
-require 'wage_slave/aba/batch'
 require 'wage_slave/aba/validations'
+require 'wage_slave/aba/batch'
 require 'wage_slave/aba/transaction'
 
 # Require services
