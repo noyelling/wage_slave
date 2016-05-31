@@ -22,8 +22,6 @@ describe WageSlave::Aba do
 			obj = WageSlave::Aba.batch(attributes, transactions)
 
 			obj.must_be_kind_of(WageSlave::Aba::Batch)
-
-			puts obj
 		end
 
 	end
