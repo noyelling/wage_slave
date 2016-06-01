@@ -34,6 +34,21 @@ WageSlave.configure do | config |
 end
 ```
 
+### Build Invoice
+
+```ruby
+<!-- data = [{
+	due_date: attrs[:date],
+	name: attrs[:name],
+	description: attrs[:description],
+	quantity: attrs[:quantity],
+	unit_amount: attrs[:unit_amount],
+	account_code: attrs[:unit_amount]
+}] -->
+WageSlave::BuildInvoices.call data
+
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `ruby bin/console` for an interactive prompt that will allow you to experiment.
