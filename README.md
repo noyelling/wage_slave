@@ -28,16 +28,21 @@ WageSlave.configure do | config |
   config.bank_code                              = "123-456" # i.e. BSB, Sort code etc
   config.user_id                                = "12345678" # i.e. CRN, Acc no. etc
   config.description                            = "A default description for all WageSlave transactions"
-  config.xero_consumer_key                      = "YOUR_XERO_CONSUMER_KEY"
-  config.xero_consumer_secret                   = "YOUR_XERO_CONSUMER_SECRET"
-  config.xero_pem_file_location                 = "YOUR_PEM_FILE_LOCATION"
+  config.user_name 															= "Username"
+  config.xero = {
+		consumer_key: "YOUR_XERO_CONSUMER_KEY",
+	  consumer_secret: "YOUR_XERO_CONSUMER_SECRET",
+	  pem_file_location: "YOUR_PEM_FILE_LOCATION"
+  }
 end
 ```
 
-### Build Invoice
+### Build Invoices
+Builds an Array of Xero Invoice Objects
 
 ```ruby
-payment1 = {
+invoice1 = {
+	# Required attributes
 	due_date: Date.today,
 	name: "Joe Bloggs",
 	description: "Payroll",
@@ -46,11 +51,43 @@ payment1 = {
 	account_code: 245
 }
 
-payments = [payment1, payment2, payment3]
+invoices = [invoice1, invoice2, invoice3]
 
-WageSlave::BuildInvoices.call payments
+xero_invoices = WageSlave::BuildInvoices.call payments
 
 ```
+
+### Save Invoices
+Save invoices to Xero.
+
+```ruby
+WageSlave::SaveInvoices.call xero_invoices
+```
+
+### Build Payments
+Builds an Array of Xero Payments linked to Invoices with #invoice_id
+
+```ruby
+payment1 = {
+	# Required Attributes
+	amount: amount_due,
+	id: invoice_id,
+	account_code: 238 # Account that payment is being made from
+}
+
+payments = [payment1, payment2, payment3]
+
+xero_payments = WageSlave::BuildPayments.call payments
+```
+
+### Save Payments
+Save payments to Xero.
+
+```ruby
+WageSlave::SavePayments.call xero_payments
+```
+
+#### Test Title
 
 ## Development
 
