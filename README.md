@@ -37,15 +37,18 @@ end
 ### Build Invoice
 
 ```ruby
-<!-- data = [{
-	due_date: attrs[:date],
-	name: attrs[:name],
-	description: attrs[:description],
-	quantity: attrs[:quantity],
-	unit_amount: attrs[:unit_amount],
-	account_code: attrs[:unit_amount]
-}] -->
-WageSlave::BuildInvoices.call data
+payment1 = {
+	due_date: Date.today,
+	name: "Joe Bloggs",
+	description: "Payroll",
+	quantity: 1,
+	unit_amount: 220.20, # in dollars
+	account_code: 245
+}
+
+payments = [payment1, payment2, payment3]
+
+WageSlave::BuildInvoices.call payments
 
 ```
 
