@@ -9,12 +9,13 @@ module WageSlave
   # @description is the default description for transactions
 
   class Configuration
-    attr_accessor :financial_institution, :bank_code, :user_id, :user_name, 
+    attr_accessor :financial_institution, :bank_code, :user_id, :user_name, :account_number,
     :description, :xero_consumer_key, :xero_consumer_secret, :xero_pem_file_location
 
     def initialize
       @financial_institution = nil
       @bank_code = nil
+      @account_number = nil
       @user_id = "000001"
       @user_name = nil
       @description = "Payroll"

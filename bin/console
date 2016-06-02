@@ -12,6 +12,7 @@ WageSlave.configure do | config |
   config.bank_code 						 = "123-456"
   config.user_id							 = "000001"
   config.description					 = "No Yelling Commission"
+  config.user_name						 = "No Yelling"
   config.xero = { 
     consumer_key: ENV['DEMO_XERO_CONSUMER_KEY'],
     consumer_secret: ENV['DEMO_XERO_CONSUMER_SECRET'],

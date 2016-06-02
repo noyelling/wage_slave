@@ -14,6 +14,5 @@ module WageSlave
         )
       }
     end
-
   end
 end
