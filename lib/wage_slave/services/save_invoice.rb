@@ -5,7 +5,9 @@ module WageSlave
     include WageSlave::Base
 
     def call invoice
+
     	invoice.save
+    	
     end
       
   end
