@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe WageSlave::BuildInvoices do
+describe WageSlave::BuildInvoice do
 
   let(:data) {[
     { due_date: Date.today, name: "Nikko Mackintosh", description: "No Yelling commission", quantity: 1, unit_amount: 100, account_code: 240 },
@@ -11,7 +11,7 @@ describe WageSlave::BuildInvoices do
   ]}
 
   it "must be a class" do
-    WageSlave::BuildInvoices.must_be_instance_of Class
+    WageSlave::BuildInvoice.must_be_instance_of Class
   end
 
   it "will build an array of Xeroizer Invoice Objects" do
@@ -24,7 +24,7 @@ describe WageSlave::BuildInvoices do
     }
     end
 
-    xero_invoices = WageSlave::BuildInvoices.call data
+    xero_invoices = WageSlave::BuildInvoice.call data
 
     xero_invoices.must_be_instance_of Array
 
