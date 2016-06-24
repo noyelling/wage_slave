@@ -24,13 +24,9 @@ describe WageSlave::BuildInvoice do
     }
     end
 
-    xero_invoices = WageSlave::BuildInvoice.call data
+    xero_invoice = WageSlave::BuildInvoice.call data
 
-    xero_invoices.must_be_instance_of Array
-
-    xero_invoices.each do | x |
-      x.must_be_instance_of Xeroizer::Record::Invoice
-    end
+    xero_invoice.must_be_instance_of Xeroizer::Record::Invoice
 
   end
 
