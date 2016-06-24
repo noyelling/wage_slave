@@ -38,53 +38,50 @@ end
 ```
 
 ### Build Invoices
-Builds an Array of Xero Invoice Objects
+Build an invoice
 
 ```ruby
-invoice1 = {
+payment1 = {
 	# Required attributes
 	due_date: Date.today,
-	name: "Joe Bloggs",
 	description: "Payroll",
 	quantity: 1,
 	unit_amount: 220.20, # in dollars
 	account_code: 245
 }
 
-invoices = [invoice1, invoice2, invoice3]
+payments = [payment1, payment2, payment3]
 
-xero_invoices = WageSlave::BuildInvoices.call payments
+xero_invoice = WageSlave::BuildInvoice.call payments
 
 ```
 
-### Save Invoices
-Save invoices to Xero.
+### Save Invoice
+Save invoice to Xero.
 
 ```ruby
-WageSlave::SaveInvoices.call xero_invoices
+WageSlave::SaveInvoice.call xero_invoice
 ```
 
 ### Build Payments
-Builds an Array of Xero Payments linked to Invoices with #invoice_id
+Builds Xero Payment linked to Invoice with #invoice_id
 
 ```ruby
-payment1 = {
+payment = {
 	# Required Attributes
 	amount: amount_due,
 	id: invoice_id,
 	account_code: 238 # Account that payment is being made from
 }
 
-payments = [payment1, payment2, payment3]
-
-xero_payments = WageSlave::BuildPayments.call payments
+xero_payment = WageSlave::BuildPayment.call payment
 ```
 
-### Save Payments
-Save payments to Xero.
+### Save Payment
+Save payment to Xero.
 
 ```ruby
-WageSlave::SavePayments.call xero_payments
+WageSlave::SavePayment.call xero_payment
 ```
 
 ### ABA File
