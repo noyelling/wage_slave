@@ -12,4 +12,6 @@ require 'minitest'
 require 'minitest/spec'
 require 'mocha/mini_test'
 require 'minitest/autorun'
-require 'minitest/pride'
+require 'minitest/reporters'
+
+Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new(:color => true)]
