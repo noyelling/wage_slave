@@ -1,3 +1,5 @@
+require 'pp'
+
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
 # Load gem and all of its dependencies
