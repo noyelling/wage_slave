@@ -205,74 +205,74 @@ describe WageSlave::ABA::DetailRecord do
       assert aba.length === 120
       
       # Record type
-      # Max: 1
+      # Size: 1
       # Char position: 1
       aba.slice(0,1).must_equal record.type
 
       # BSB of account
-      # Max: 7
+      # Size: 7
       # Char position: 2-8
       # Format: XXX-XXX
       aba.slice(1,7).must_equal record.bsb
 
       # Account number
-      # Max: 9
+      # Size: 9
       # Char position: 9-17
       # Blank filled, right justified.
       aba.slice(8,9).must_equal record.account_number.to_s.rjust(9, " ")
 
       # Indicator
-      # Max: 1
+      # Size: 1
       # Char position: 18
       # Valid entries: N, W, X or Y.
       aba.slice(17,1).must_equal record.indicator
 
       # Transaction Code
-      # Max: 2
+      # Size: 2
       # Char position: 19-20
       aba.slice(18,2).must_equal record.transaction_code
 
       # Amount to be credited or debited
-      # Max: 10
+      # Size: 10
       # Char position: 21-30
       # Numeric only, shown in cents. Right justified, zero filled.
       aba.slice(20,10).must_equal record.amount.abs.to_s.rjust(10, "0")
 
       # Title of Account
       # Full BECS character set valid
-      # Max: 32
+      # Size: 32
       # Char position: 31-62
       # Blank filled, left justified.
       aba.slice(30,32).must_equal record.name.ljust(32, " ")
 
       # Lodgement Reference Produced on the recipient’s Account Statement.
-      # Max: 18
+      # Size: 18
       # Char position: 63-80
       # Full BECS character set valid
       # Blank filled, left justified.
       aba.slice(62,18).must_equal record.lodgement_reference.ljust(18," ")
 
       # Trace BSB Number
-      # Max: 7
+      # Size: 7
       # Char position: 81-87
       # Format: XXX-XXX
       aba.slice(80,7).must_equal record.trace_bsb
 
       # Trace Account Number
-      # Max: 9
+      # Size: 9
       # Char position: 88-96
       # Blank filled, right justified.
       aba.slice(87,9).must_equal record.trace_account.rjust(9, " ")
 
       # Name of Remitter Produced on the recipient’s Account Statement
-      # Max: 16
+      # Size: 16
       # Char position: 97-112
       # Full BECS character set valid
       # Blank filled, left justified.
       aba.slice(96,16).must_equal record.remitter.ljust(16, " ")
 
       # Withholding amount in cents
-      # Max: 8
+      # Size: 8
       # Char position: 113-120
       # Numeric only, shown in cents. Right justified, zero filled.
       aba.slice(112,8).must_equal record.witholding_amount.abs.to_s.rjust(8, "0")

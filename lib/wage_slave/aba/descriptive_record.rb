@@ -29,60 +29,60 @@ module WageSlave
         raise RuntimeError.new "Descriptive record is invalid. Check the contents of 'errors'" unless self.valid?
 
         # Record type
-        # Max: 1
+        # Size: 1
         # Char position: 1
         output = @type
 
         # Optional branch number of the funds account
         # Char position: 2-18
-        # Max: 17
+        # Size: 17
         # Format: XXX-XXX
         # Blank filled
         output += @bsb.nil? ? " " * 17 : @bsb.to_s.ljust(17)
 
         # Sequence number
         # Char position: 19-20
-        # Max: 2
+        # Size: 2
         # Zero padded
         output += @reel_sequence
 
         # Name of user financial instituion
-        # Max: 3
+        # Size: 3
         # Char position: 21-23
         output += @financial_institution.to_s
 
         # Reserved
-        # Max: 7
+        # Size: 7
         # Char position: 24-30
         output += " " * 7
 
         # Name of User supplying File
         # Char position: 31-56
-        # Max: 26
+        # Size: 26
         # Full BECS character set valid
         # Blank filled
         output += @user_name.to_s.ljust(26)
 
         # Direct Entry User ID
         # Char position: 57-62
-        # Max: 6
+        # Size: 6
         # Zero padded
         output += @user_id.to_s.rjust(6, "0")
 
         # Description of payments in the file (e.g. Payroll, Creditors etc.)
         # Char position: 63-74
-        # Max: 12
+        # Size: 12
         # Full BECS character set valid
         # Blank filled
         output += @description.to_s.ljust(12)
 
         # Date on which the payment is to be processed
         # Char position: 75-80
-        # Max: 6
+        # Size: 6
         output += @process_at.strftime("%d%m%y")
 
         # Reserved
-        # Max: 40
+        # Size: 40
         # Char position: 81-120
         output += " " * 40
       end

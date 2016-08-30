@@ -62,74 +62,74 @@ module WageSlave
         raise RuntimeError.new "Detail record is invalid. Check the contents of 'errors'" unless self.valid?
 
         # Record type
-        # Max: 1
+        # Size: 1
         # Char position: 1
         output = @type
 
         # BSB of account
-        # Max: 7
+        # Size: 7
         # Char position: 2-8
         # Format: XXX-XXX
         output += @bsb.to_s
 
         # Account number
-        # Max: 9
+        # Size: 9
         # Char position: 9-17
         # Blank filled, right justified.
         output += @account_number.to_s.rjust(9, " ")
 
         # Indicator
-        # Max: 1
+        # Size: 1
         # Char position: 18
         # Valid entries: N, W, X or Y.
         output += @indicator.to_s.ljust(1, " ")
 
         # Transaction Code
-        # Max: 2
+        # Size: 2
         # Char position: 19-20
         output += @transaction_code.to_s
 
         # Amount to be credited or debited
-        # Max: 10
+        # Size: 10
         # Char position: 21-30
         # Numeric only, shown in cents. Right justified, zero filled.
         output += @amount.to_i.abs.to_s.rjust(10, "0")
 
         # Title of Account
         # Full BECS character set valid
-        # Max: 32
+        # Size: 32
         # Char position: 31-62
         # Blank filled, left justified.
         output += @name.to_s.ljust(32, " ")
 
         # Lodgement Reference Produced on the recipient’s Account Statement.
-        # Max: 18
+        # Size: 18
         # Char position: 63-80
         # Full BECS character set valid
         # Blank filled, left justified.
         output += @lodgement_reference.to_s.ljust(18, " ")
 
         # Trace BSB Number
-        # Max: 7
+        # Size: 7
         # Char position: 81-87
         # Format: XXX-XXX
         output += @trace_bsb.to_s
 
         # Trace Account Number
-        # Max: 9
+        # Size: 9
         # Char position: 88-96
         # Blank filled, right justified.
         output += @trace_account.to_s.rjust(9, " ")
 
         # Name of Remitter Produced on the recipient’s Account Statement
-        # Max: 16
+        # Size: 16
         # Char position: 97-112
         # Full BECS character set valid
         # Blank filled, left justified.
         output += @remitter.to_s.ljust(16, " ")
 
         # Withholding amount in cents
-        # Max: 8
+        # Size: 8
         # Char position: 113-120
         # Numeric only, shown in cents. Right justified, zero filled.
         output += @witholding_amount.abs.to_s.rjust(8, "0")

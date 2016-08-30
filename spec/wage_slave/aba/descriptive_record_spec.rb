@@ -142,59 +142,59 @@ describe WageSlave::ABA::DescriptiveRecord do
       aba.length.must_equal(120)
 
       # Record type
-      # Max: 1
+      # Size: 1
       # Char position: 1
       aba.slice(0,1).must_equal record.type
 
       # Optional branch number of the funds account with a hyphen in the 4th character position
       # Char position: 2-18
-      # Max: 17
+      # Size: 17
       # Blank filled
       aba.slice(1,17).must_equal record.bsb.to_s.ljust(17)
 
       # Sequence number
       # Char position: 19-20
-      # Max: 2
+      # Size: 2
       # Zero padded
       aba.slice(18,2).must_equal record.reel_sequence
 
       # Name of user financial instituion
-      # Max: 3
+      # Size: 3
       # Char position: 21-23
       aba.slice(20,3).must_equal record.financial_institution
 
       # Reserved (Blank filled)
-      # Max: 7
+      # Size: 7
       # Char position: 24-30
       aba.slice(23,7).must_equal " " * 7
 
       # Name of User supplying File
       # Char position: 31-56
-      # Max: 26
+      # Size: 26
       # Full BECS character set valid
       # Blank filled
       aba.slice(30,26).must_equal record.user_name.to_s.ljust(26)
 
       # Direct Entry User ID
       # Char position: 57-62
-      # Max: 6
+      # Size: 6
       # Zero padded
       aba.slice(56,6).must_equal record.user_id.to_s.ljust(6, "0")
 
       # Description of payments in the file (e.g. Payroll, Creditors etc.)
       # Char position: 63-74
-      # Max: 12
+      # Size: 12
       # Full BECS character set valid
       # Left justified, blank filled
       aba.slice(62,12).must_equal record.description.to_s.ljust(12)
 
       # Date on which the payment is to be processed
       # Char position: 75-80
-      # Max: 6
+      # Size: 6
       aba.slice(74,6).must_equal record.process_at.strftime("%d%m%y")
 
       # Reserved
-      # Max: 40
+      # Size: 40
       # Char position: 81-120
       aba.slice(80, 40).must_equal " " * 40
 
