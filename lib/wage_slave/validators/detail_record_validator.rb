@@ -13,7 +13,7 @@ module WageSlave
         msg: "is not in the required format (xxx-xxx)"
 
       validates :account_number,
-        with: proc { |p| p.account_number.to_s =~ /[\d\- ]/ && p.account_number !~ /[0{9}]/ },
+				with: proc { |p| p.account_number.to_s =~ /^[\d\- ]{1,9}$/ && p.account_number !~ /^0*$/ },
         msg: "not a valid account number"
 
       validates :indicator, 
@@ -41,7 +41,7 @@ module WageSlave
         msg: "is not in the required format (xxx-xxx)"
 
       validates :trace_account,
-        with: proc { |p| p.trace_account.to_s =~ /[\d\- ]/ && p.trace_account !~ /[0{9}]/ },
+				with: proc { |p| p.trace_account.to_s =~ /^[\d\- ]{1,9}$/ && p.trace_account !~ /^0*$/ },
         msg: "not a valid account number"
 
       validates :remitter,

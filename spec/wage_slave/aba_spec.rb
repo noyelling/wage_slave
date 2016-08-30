@@ -1,28 +1,36 @@
 require "spec_helper"
 
 describe WageSlave::ABA do
-	
-	describe ".batch" do
 
-		# 	let(:attributes) {{ financial_institution: 'ANZ', user_name: 'Joe Blow', user_id: 123456, process_at: 200615 }}
-		# 	let(:transactions) {[
-    #     { bsb: '123-456', account_number: '000-123-456', amount: 50000 }, 
-    #     { bsb: '456-789', account_number: '123-456-789', amount: '10000', transaction_code: 13 }
-    #   ]}
-    #
-		# it	"initialize instance of Aba::Batch with passed arguments" do
-    #
-		# 	WageSlave::Aba::Batch.expects(:new).with(attributes, transactions)
-		# 	WageSlave::Aba::Batch.new(attributes, transactions)
-    #
-		# end
-    #
-		# it "returns instance of Aba::Batch" do
-    #
-		# 	obj = WageSlave::Aba.batch(attributes, transactions)
-    #
-		# 	obj.must_be_kind_of(WageSlave::Aba::Batch)
-		# end
+  let(:details) {[
+    { bsb: "789-112", account_number: "12345678", name: "Jim Sanders",  amount: 5000 },
+    { bsb: "213-213", account_number: "98765432", name: "Herc Dundall",  amount: 6000 },
+    { bsb: "099-231", account_number: "00012312", name: "Ridgells",  amount: 12421 },
+    { bsb: "123-444", account_number: "34432131", name: "Sam Blimpton",  amount: 8753 }
+	]}
+	
+	describe "#new" do
+
+		it "will create a new ABA object" do
+			aba = WageSlave::ABA.new(details)
+			aba.must_be_instance_of WageSlave::ABA
+			aba.descriptive_record.must_be_instance_of WageSlave::ABA::DescriptiveRecord
+			aba.details.must_be_instance_of WageSlave::ABA::DetailCollection
+			aba.details.each do | d |
+				d.must_be_instance_of WageSlave::ABA::DetailRecord
+			end
+		end
+
+	end
+
+	describe "#to_s" do
+		
+		it "will generate a valid ABA that is 120 characters wide" do
+			aba = WageSlave::ABA.new(details)
+			aba.to_s.split("\r\n").each do | str |
+				str.length.must_equal 120
+			end
+		end
 
 	end
 

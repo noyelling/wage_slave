@@ -8,11 +8,12 @@ Dotenv.load
 
 # Configure Application with Demo API Keys
 WageSlave.configure do | config |
-  config.financial_institution = "ANZ"
-  config.bank_code 						 = "123-456"
-  config.user_id							 = "000001"
-  config.description					 = "No Yelling Commission"
-  config.user_name						 = "No Yelling"
+	config.financial_institution	= "ANZ"
+	config.bank_code							= "123-456"
+	config.account_number					= "12345678"
+	config.user_id								= "000001"
+	config.description						= "PAYROLL"
+	config.user_name							= "No Yelling"
 end
 
 # You can add fixtures and/or initialization code here to make experimenting
