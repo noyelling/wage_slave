@@ -8,6 +8,10 @@ module WageSlave
       @details = WageSlave::ABA::DetailCollection.new(transactions)
     end
 
+    ## 
+    # This method was adapted from https://github.com/andrba/aba which is released under MIT.
+    # See https://github.com/andrba/aba/blob/master/LICENSE for details.
+
     def to_s
       output = @descriptive_record.to_s + "\r\n"
       output += @details.to_s + "\r\n"

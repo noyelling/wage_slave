@@ -25,12 +25,17 @@ module WageSlave
         @reel_sequence = '%02d' % @@reel_sequence+=1
       end
 
+      ## 
+      # This method was adapted from https://github.com/andrba/aba which is released under MIT.
+      # See https://github.com/andrba/aba/blob/master/LICENSE for details.
+
       def to_s
         raise RuntimeError.new "Descriptive record is invalid. Check the contents of 'errors'" unless self.valid?
 
         # Record type
         # Size: 1
         # Char position: 1
+        # Must be 0
         output = @type
 
         # Optional branch number of the funds account

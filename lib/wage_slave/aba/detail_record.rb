@@ -58,12 +58,17 @@ module WageSlave
         @indicator = key if @@indicators.include? key
       end
 
+      ## 
+      # This method was adapted from https://github.com/andrba/aba which is released under MIT.
+      # See https://github.com/andrba/aba/blob/master/LICENSE for details.
+
       def to_s
         raise RuntimeError.new "Detail record is invalid. Check the contents of 'errors'" unless self.valid?
 
         # Record type
         # Size: 1
         # Char position: 1
+        # Must be 1
         output = @type
 
         # BSB of account
