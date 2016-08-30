@@ -12,3 +12,4 @@ require 'wage_slave/aba/detail_record'
 
 # Require validators
 require 'wage_slave/validators/detail_record_validator'
+require 'wage_slave/validators/descriptive_record_validator'

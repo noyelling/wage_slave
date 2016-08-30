@@ -2,6 +2,8 @@ module WageSlave
   class ABA
     class DescriptiveRecord < WageSlave::ABA::Record
 
+      include WageSlave::Validation
+
       @@reel_sequence = 0
 
       attr_reader :bsb, :financial_institution, :user_name, :user_id, :description, :process_at, :reel_sequence
@@ -13,13 +15,15 @@ module WageSlave
         @user_name = WageSlave.configuration.user_name
         @user_id = WageSlave.configuration.user_id
         @description = WageSlave.configuration.description
-        @process_at = attrs[:process_at] || Date.today.strftime('%d%m%y')
+        @process_at = attrs[:process_at] || Date.today
 
         # Bump reel sequence number.
         @reel_sequence = '%02d' % @@reel_sequence+=1
       end
 
       def to_s
+        raise RuntimeError.new "Descriptive record is invalid. Check the contents of 'errors'" unless self.valid?
+
         # Record type
         # Max: 1
         # Char position: 1
@@ -70,7 +74,7 @@ module WageSlave
         # Date on which the payment is to be processed
         # Char position: 75-80
         # Max: 6
-        output += self.process_at.to_s.rjust(6, "0")
+        output += self.process_at.strftime("%d%m%y")
 
         # Reserved
         # Max: 40

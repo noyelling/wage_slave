@@ -19,10 +19,7 @@ describe WageSlave::ABA::DescriptiveRecord do
       record.user_name.must_equal WageSlave.configuration.user_name
       record.user_id.must_equal WageSlave.configuration.user_id
       record.description.must_equal WageSlave.configuration.description
-
-      record.process_at.must_be_instance_of(String)
-      record.process_at.length.must_equal 6
-
+      record.process_at.must_be_instance_of(Date)
       record.reel_sequence.must_equal "01"
 
     end
@@ -40,9 +37,104 @@ describe WageSlave::ABA::DescriptiveRecord do
 
 	end
 
+  describe "validations" do
+    
+    it "must have a type of '0'" do
+      record = WageSlave::ABA::DescriptiveRecord.new
+      assert record.type === "0"
+      assert record.valid? === true
+
+      record.instance_variable_set :@type, '1'
+      assert record.valid? === false
+    end
+
+    it "if bsb is specified it must be in the format xxx-xxx" do
+      record = WageSlave::ABA::DescriptiveRecord.new
+      record.instance_variable_set :@bsb, "000-000"
+      assert record.valid? === true
+
+      record.instance_variable_set :@bsb, nil
+      assert record.valid? === true
+
+      record.instance_variable_set :@bsb, "123123"
+      assert record.valid? === false
+
+      record.instance_variable_set :@bsb, "abc-abc"
+      assert record.valid? === false
+    end
+
+    it "must have a reel_sequence that is numeric and does not exceed 99" do
+      record = WageSlave::ABA::DescriptiveRecord.new
+      assert record.reel_sequence === "01"
+      assert record.valid? === true
+
+      record.instance_variable_set :@reel_sequence, "99"
+      assert record.valid? === true
+
+      record.instance_variable_set :@reel_sequence, "ok"
+      assert record.valid? === false
+
+      record.instance_variable_set :@reel_sequence, "100"
+      assert record.valid? === false
+    end
+
+    it "must have a valid 3 character abbreviation for an Australian financial institution" do
+      record = WageSlave::ABA::DescriptiveRecord.new
+      assert record.financial_institution === "ANZ"
+      assert record.valid? === true
+
+      record.instance_variable_set :@financial_institution, "AN"
+      assert record.valid? === false
+    end
+
+    it "must have a user_name less than 26 characters long" do
+      record = WageSlave::ABA::DescriptiveRecord.new
+      assert record.user_name === "NYDS"
+      assert record.valid? === true
+
+      record.instance_variable_set :@user_name, "n" * 26
+      assert record.valid? === true
+
+      record.instance_variable_set :@user_name, "n" * 27
+      assert record.valid? === false
+    end
+
+    it "must have a numeric user_id less than or equal 6 characters long" do
+      record = WageSlave::ABA::DescriptiveRecord.new
+      record.instance_variable_set :@user_id, "1" * 6
+      assert record.valid? === true
+
+      record.instance_variable_set :@user_id, "2" * 7
+      assert record.valid? === false
+
+      record.instance_variable_set :@user_id, "Fail"
+      assert record.valid? === false
+    end
+
+    it "must not have a description that exceeds 12 characters long" do
+      record = WageSlave::ABA::DescriptiveRecord.new
+      record.instance_variable_set :@description, "n" * 12
+      assert record.valid? === true
+
+      record = WageSlave::ABA::DescriptiveRecord.new
+      record.instance_variable_set :@description, "n" * 13
+      assert record.valid? === false
+    end
+
+    it "must specify process_at as a a Ruby Date" do
+      record = WageSlave::ABA::DescriptiveRecord.new
+      record.instance_variable_set :@process_at, Date.today
+      assert record.valid? === true
+
+      record.instance_variable_set :@process_at, Time.now
+      assert record.valid? === false
+    end
+
+  end
+
   describe "#to_s" do
     
-    it "Will print a valid descriptive record in ABA format" do
+    it "will print a valid descriptive record in ABA format" do
       
       record = WageSlave::ABA::DescriptiveRecord.new
       aba = record.to_s
@@ -99,13 +191,22 @@ describe WageSlave::ABA::DescriptiveRecord do
       # Date on which the payment is to be processed
       # Char position: 75-80
       # Max: 6
-      aba.slice(74,6).must_equal record.process_at.to_s.rjust(6, "0")
+      aba.slice(74,6).must_equal record.process_at.strftime("%d%m%y")
 
       # Reserved
       # Max: 40
       # Char position: 81-120
       aba.slice(80, 40).must_equal " " * 40
 
+    end
+
+    it "will raise a RuntimeError if the record is invalid" do
+      record = WageSlave::ABA::DescriptiveRecord.new
+
+      record.instance_variable_set :@type, '1'
+      assert record.valid? === false
+
+      -> { record.to_s }.must_raise RuntimeError
     end
 
   end
