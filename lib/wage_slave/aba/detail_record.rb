@@ -32,17 +32,17 @@ module WageSlave
         "13", "50", "51", "52", "53", "54", "55", "56", "57"
       ]
 
-      attr_accessor :bsb, :account_number, :indicator, :transaction_code, :amount, :name, :lodgement_reference,
-        :trace_bsb, :trace_account, :remitter, :witholding_amount
+      attr_reader :bsb, :account_number, :indicator, :transaction_code, :amount, :name,
+        :lodgement_reference, :trace_bsb, :trace_account, :remitter, :witholding_amount
 
       def initialize(attrs={})
         @type                 = "1"
-        @bsb                  = attrs[:bsb] || ""
-        @account_number       = attrs[:account_number] || ""
-        @indicator            = attrs[:indicator] || "N"
-        @transaction_code     = attrs[:transaction_code] || "53"
+        @bsb                  = attrs[:bsb]
+        @account_number       = attrs[:account_number]
+        self.indicator        = attrs[:indicator] || "N"
+        self.transaction_code = attrs[:transaction_code] || "53"
         @amount               = attrs[:amount] || 0
-        @name                 = attrs[:name] || ""
+        @name                 = attrs[:name]
         @lodgement_reference  = attrs[:lodgement_reference] || WageSlave.configuration.user_name
         @trace_bsb            = attrs[:trace_bsb] || WageSlave.configuration.bank_code
         @trace_account        = attrs[:trace_account] || WageSlave.configuration.account_number
@@ -59,45 +59,79 @@ module WageSlave
       end
 
       def to_s
-        raise RuntimeError, 'Transaction data is invalid - check the contents of `errors`' unless self.valid?
+        raise RuntimeError.new "Detail record is invalid. Check the contents of 'errors'" unless self.valid?
 
         # Record type
+        # Max: 1
+        # Char position: 1
         output = @type
 
         # BSB of account
-        output += @bsb
+        # Max: 7
+        # Char position: 2-8
+        # Format: XXX-XXX
+        output += @bsb.to_s
 
         # Account number
+        # Max: 9
+        # Char position: 9-17
+        # Blank filled, right justified.
         output += @account_number.to_s.rjust(9, " ")
 
-        # Withholding Tax Indicator
+        # Indicator
+        # Max: 1
+        # Char position: 18
+        # Valid entries: N, W, X or Y.
         output += @indicator.to_s.ljust(1, " ")
 
         # Transaction Code
+        # Max: 2
+        # Char position: 19-20
         output += @transaction_code.to_s
 
         # Amount to be credited or debited
+        # Max: 10
+        # Char position: 21-30
+        # Numeric only, shown in cents. Right justified, zero filled.
         output += @amount.to_i.abs.to_s.rjust(10, "0")
 
         # Title of Account
         # Full BECS character set valid
-        output += @account_name.to_s.ljust(32, " ")
+        # Max: 32
+        # Char position: 31-62
+        # Blank filled, left justified.
+        output += @name.to_s.ljust(32, " ")
 
         # Lodgement Reference Produced on the recipient’s Account Statement.
+        # Max: 18
+        # Char position: 63-80
         # Full BECS character set valid
+        # Blank filled, left justified.
         output += @lodgement_reference.to_s.ljust(18, " ")
 
         # Trace BSB Number
-        output += @trace_bsb
+        # Max: 7
+        # Char position: 81-87
+        # Format: XXX-XXX
+        output += @trace_bsb.to_s
 
         # Trace Account Number
-        output += @trace_account_number.to_s.rjust(9, " ")
+        # Max: 9
+        # Char position: 88-96
+        # Blank filled, right justified.
+        output += @trace_account.to_s.rjust(9, " ")
 
         # Name of Remitter Produced on the recipient’s Account Statement
+        # Max: 16
+        # Char position: 97-112
         # Full BECS character set valid
+        # Blank filled, left justified.
         output += @remitter.to_s.ljust(16, " ")
 
         # Withholding amount in cents
+        # Max: 8
+        # Char position: 113-120
+        # Numeric only, shown in cents. Right justified, zero filled.
         output += @witholding_amount.abs.to_s.rjust(8, "0")
       end
 

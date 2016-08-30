@@ -4,18 +4,22 @@ module WageSlave
 
       include WageSlave::Validation
 
+      ##
+      # Reel sequence becomes important for payment runs of multiple ABA files. 
+      # It is incremented each time a descriptive record is created.
+
       @@reel_sequence = 0
 
       attr_reader :bsb, :financial_institution, :user_name, :user_id, :description, :process_at, :reel_sequence
 
       def initialize(attrs = {})
-        @type = "0"
-        @bsb = WageSlave.configuration.bank_code
-        @financial_institution = WageSlave.configuration.financial_institution
-        @user_name = WageSlave.configuration.user_name
-        @user_id = WageSlave.configuration.user_id
-        @description = WageSlave.configuration.description
-        @process_at = attrs[:process_at] || Date.today
+        @type                   = "0"
+        @bsb                    = WageSlave.configuration.bank_code
+        @financial_institution  = WageSlave.configuration.financial_institution
+        @user_name              = WageSlave.configuration.user_name
+        @user_id                = WageSlave.configuration.user_id
+        @description            = WageSlave.configuration.description
+        @process_at             = attrs[:process_at] || Date.today
 
         # Bump reel sequence number.
         @reel_sequence = '%02d' % @@reel_sequence+=1
@@ -27,24 +31,25 @@ module WageSlave
         # Record type
         # Max: 1
         # Char position: 1
-        output = self.type
+        output = @type
 
-        # Optional branch number of the funds account with a hyphen in the 4th character position
+        # Optional branch number of the funds account
         # Char position: 2-18
         # Max: 17
+        # Format: XXX-XXX
         # Blank filled
-        output += self.bsb.nil? ? " " * 17 : self.bsb.to_s.ljust(17)
+        output += @bsb.nil? ? " " * 17 : @bsb.to_s.ljust(17)
 
         # Sequence number
         # Char position: 19-20
         # Max: 2
         # Zero padded
-        output += self.reel_sequence
+        output += @reel_sequence
 
         # Name of user financial instituion
         # Max: 3
         # Char position: 21-23
-        output += self.financial_institution.to_s
+        output += @financial_institution.to_s
 
         # Reserved
         # Max: 7
@@ -56,25 +61,25 @@ module WageSlave
         # Max: 26
         # Full BECS character set valid
         # Blank filled
-        output += self.user_name.to_s.ljust(26)
+        output += @user_name.to_s.ljust(26)
 
         # Direct Entry User ID
         # Char position: 57-62
         # Max: 6
         # Zero padded
-        output += self.user_id.to_s.rjust(6, "0")
+        output += @user_id.to_s.rjust(6, "0")
 
         # Description of payments in the file (e.g. Payroll, Creditors etc.)
         # Char position: 63-74
         # Max: 12
         # Full BECS character set valid
         # Blank filled
-        output += self.description.to_s.ljust(12)
+        output += @description.to_s.ljust(12)
 
         # Date on which the payment is to be processed
         # Char position: 75-80
         # Max: 6
-        output += self.process_at.strftime("%d%m%y")
+        output += @process_at.strftime("%d%m%y")
 
         # Reserved
         # Max: 40
