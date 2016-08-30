@@ -6,8 +6,6 @@ module WageSlave
 
       attr_reader :bsb, :financial_institution, :user_name, :user_id, :description, :process_at, :reel_sequence
 
-      attr_writer :transactions
-
       def initialize(attrs = {})
         @type = "0"
         @bsb = WageSlave.configuration.bank_code
@@ -18,8 +16,7 @@ module WageSlave
         @process_at = attrs[:process_at] || Date.today.strftime('%d%m%y')
 
         # Bump reel sequence number.
-        @reel_sequence = sequence(@@reel_sequence)
-        @@reel_sequence+=1
+        @reel_sequence = '%02d' % @@reel_sequence+=1
       end
 
       def to_s
@@ -79,16 +76,6 @@ module WageSlave
         # Max: 40
         # Char position: 81-120
         output += " " * 40
-      end
-
-      private
-
-      def sequence(number)
-        if number < 99
-          sprintf '%02d', number+=1
-        else
-          raise "Reel sequence may not exceed the maximum allowed by the ABA (99)"
-        end
       end
 
     end
