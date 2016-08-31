@@ -21,8 +21,8 @@ module WageSlave
         msg: "must not exceed 26 characters"
 
       validates :user_id,
-        with: proc { |p| p.user_id.to_s =~ /^\d{6}$/ },
-        msg: "must not exceed 6 characters and may only be numeric"
+        with: proc { |p| p.user_id.to_s =~ /^\d{1,6}$/ },
+        msg: "is required, must not exceed 6 characters and may only be numeric"
 
       validates :description,
         with: proc { |p| p.description.to_s.length <= 12 },
