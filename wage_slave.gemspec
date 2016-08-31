@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["James Gemmell", "Jasper Boyschau"]
   spec.email         = ["dev@noyelling.com.au"]
 
-  spec.summary       = %q{Payroll made easy for Ruby applications.}
-  spec.description   = %q{WageSlave is a payroll solution for Ruby applications. Integrates with Xero and can transfer to any Australian bank account.}
+  spec.summary       = %q{Generate ABA, NZ-DE and IB4B direct entry files.}
+  spec.description   = %q{A toolkit for generating and working with bulk payment files in various banking formats.}
   spec.homepage      = "http://github.com/noyelling/wage_slave"
   spec.license       = "MIT"
 
