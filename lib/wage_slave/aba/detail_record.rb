@@ -60,7 +60,7 @@ module WageSlave
 
       ## 
       # This method was adapted from https://github.com/andrba/aba which is released under MIT.
-      # See https://github.com/andrba/aba/blob/master/LICENSE for details.
+      # See /LICENSE.txt for details.
 
       def to_s
         raise RuntimeError.new "Detail record is invalid. Check the contents of 'errors'" unless self.valid?
