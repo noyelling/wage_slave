@@ -1,6 +1,6 @@
 # WageSlave
 
-Payroll made easy for Ruby applications. Integrates with Xero and may transact to any Australian bank account.
+A toolkit for generating and working with bulk payment files in various banking formats.
 
 ## Installation
 
@@ -18,7 +18,24 @@ Or install it yourself as:
 
     $ gem install wage_slave
 
+## Formats
+
+WageSlave can generate payment files in the following formats:
+
+### Available
+
+1. [ABA / Cemtext](https://www.cemtexaba.com/aba-format) (Australian Banks)
+
+### Coming soon
+
+1. [NZ-DE](http://help.westpac.com.au/help/content/col/documents/pdfs/olpimportnzde.pdf) (New Zealand Direct Entry File Format)
+2. [IB4B](https://www.bnz.co.nz/assets/business-banking-help-support/internet-banking/ib4b-file-format-guide.pdf) (Bank of New Zealand)
+3. More...
+
 ## Usage
+
+Configure your application with information relating to your financial institution. For Rails applications this should be kept in
+an initializer. Keep this information secure and out of version control.
 
 ### Configuration
 
@@ -28,133 +45,30 @@ WageSlave.configure do | config |
   config.bank_code                              = "123-456" # i.e. BSB, Sort code etc
   config.user_id                                = "12345678" # i.e. CRN, Acc no. etc
   config.description                            = "A default description for all WageSlave transactions"
-  config.user_name 															= "Username"
-  config.xero = {
-		consumer_key: "YOUR_XERO_CONSUMER_KEY",
-	  consumer_secret: "YOUR_XERO_CONSUMER_SECRET",
-	  pem_file_location: "YOUR_PEM_FILE_LOCATION"
-  }
+  config.user_name 								= "Username"
 end
 ```
 
-### Build Invoices
-Build an invoice
+### ABA / Cemtext
+
+A bulk payment file that works with most Australian banks.
 
 ```ruby
-payment1 = {
-	# Required attributes
-	due_date: Date.today,
-	description: "Payroll",
-	quantity: 1,
-	unit_amount: 220.20, # in dollars
-	account_code: 245
-}
+    
+    # Build individual transactions
+    transactions = [
+        { name: "John Doe", account_number: "12345678", bsb: "999-999", amount: 5000 },
+        { name: "Jane Doe", account_number: "87654321", bsb: "999-999", amount: 6000 }
+    ]
 
-payments = [payment1, payment2, payment3]
+    # Create an ABA object
+    aba = WageSlave::ABA.new(transactions)
 
-xero_invoice = WageSlave::BuildInvoice.call payments
+    # Print in ABA format
+    # Validation errors will raise a RuntimeError when calling #to_s on an ABA object.
+    aba.to_s
 
 ```
-
-### Save Invoice
-Save invoice to Xero.
-
-```ruby
-WageSlave::SaveInvoice.call xero_invoice
-```
-
-### Build Payments
-Builds Xero Payment linked to Invoice with #invoice_id
-
-```ruby
-payment = {
-	# Required Attributes
-	amount: amount_due,
-	id: invoice_id,
-	account_code: 238 # Account that payment is being made from
-}
-
-xero_payment = WageSlave::BuildPayment.call payment
-```
-
-### Save Payment
-Save payment to Xero.
-
-```ruby
-WageSlave::SavePayment.call xero_payment
-```
-
-### ABA File
-```ruby
-# Initialise ABA
-aba = WageSlave::Aba.batch(
-  bsb: "123-345", # Optional (Not required by NAB)
-  financial_institution: "WPC",
-  user_name: "John Doe",
-  user_id: "466364",
-  description: "Payroll",
-  process_at: Time.now.strftime("%d%m%y")
-)
-
-# Add Transaction
-aba.add_transaction(
-    {
-      bsb: "342-342",
-      account_number: "3244654",
-      amount: 10000, # Amount in cents
-      account_name: "John Doe",
-      transaction_code: 53,
-      lodgement_reference: "R435564",
-      trace_bsb: "453-543",
-      trace_account_number: "45656733",
-      name_of_remitter: "Remitter"
-    }
-  )
-```
-
-Transactions are passed as an array to the second param of Aba.batch
-
-```ruby
-aba = WageSlave::Aba.batch(
-  { financial_institution: 'ANZ', bsb: "123-456", user_name: 'Joe Blow', user_id: 123456, process_at: 200615, description: "Payroll" },
-  [
-    { bsb: '123-456', account_number: '000-123-456', amount: 50000 },
-    { bsb: '456-789', account_number: '123-456-789', amount: '-10000', transaction_code: 13 }
-  ]
-)
-```
-
-Validation erros can be caught in several ways:
-
-```ruby
-# Create an ABA object with invalid character in the user_name
-aba = Aba.batch(
-  financial_institution: "ANZ",
-  user_name: "Jøhn Doe",
-  user_id: "123456",
-  process_at: Time.now.strftime("%d%m%y")
-)
-
-# Add a transaction with a bad BSB
-aba.add_transaction(
-  bsb: "abc-123",
-  account_number: "000123456"
-)
-
-# Is the data valid?
-aba.valid?
-# Returns: false
-
-# Return a structured array of errors
-puts aba.errors
-# Returns:
-# {:aba => ["user_name must not contain invalid characters"],
-#  :transactions =>
-#   {0 => ["bsb format is incorrect", "trace_bsb format is incorrect"]}}
-```
-
-Validation erros will stop the parsing of the data to an ABA formatted string using `to_s`. `aba.to_s` will raise a `RuntimeError` instead of returning output.
-
 
 ## Development
 
