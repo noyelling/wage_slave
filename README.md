@@ -1,4 +1,5 @@
 # WageSlave
+[![Build Status](https://travis-ci.org/noyelling/wage_slave.png)](https://travis-ci.org/noyelling/wage_slave)
 
 A toolkit for generating and working with bulk payment files in various banking formats.
 
