@@ -8,7 +8,7 @@ A toolkit for generating and working with bulk payment files in various banking 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'wage_slave'
+gem 'wage_slave', '~> 2.0'
 ```
 
 And then execute:
