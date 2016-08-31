@@ -8,16 +8,12 @@ Dotenv.load
 
 # Configure Application with Demo API Keys
 WageSlave.configure do | config |
-  config.financial_institution = "ANZ"
-  config.bank_code 						 = "123-456"
-  config.user_id							 = "000001"
-  config.description					 = "No Yelling Commission"
-  config.user_name						 = "No Yelling"
-  config.xero = { 
-    consumer_key: ENV['DEMO_XERO_CONSUMER_KEY'],
-    consumer_secret: ENV['DEMO_XERO_CONSUMER_SECRET'],
-    pem_file_location: File.expand_path("../../", __FILE__) + ENV['XERO_PEM_FILE_LOCATION']
-  }
+	config.financial_institution	= "ANZ"
+	config.bank_code							= "123-456"
+	config.account_number					= "12345678"
+	config.user_id								= "000001"
+	config.description						= "PAYROLL"
+	config.user_name							= "No Yelling"
 end
 
 # You can add fixtures and/or initialization code here to make experimenting
