@@ -41,7 +41,7 @@ module WageSlave
         @account_number       = attrs[:account_number]
         self.indicator        = attrs[:indicator] || "N"
         self.transaction_code = attrs[:transaction_code] || "53"
-        @amount               = attrs[:amount] || 0
+        @amount               = attrs[:amount].to_i || 0
         @name                 = attrs[:name]
         @lodgement_reference  = attrs[:lodgement_reference] || WageSlave.configuration.user_name
         @trace_bsb            = attrs[:trace_bsb] || WageSlave.configuration.bank_code

@@ -120,6 +120,14 @@ describe WageSlave::ABA::DetailRecord do
       assert record.valid? === false
     end
 
+    it "will cast amounts to Fixnum" do
+      details[:amount] = "50000"
+      record = WageSlave::ABA::DetailRecord.new(details)
+      assert record.amount.class == Fixnum, "class was #{record.amount.class.name}, not Fixnum"
+      assert record.amount === 50000, "not equal to the fixnum 50000"
+      assert record.valid? === true
+    end
+
     it "must have a name no longer than 32 characters" do
       record  = WageSlave::ABA::DetailRecord.new(details) 
       assert record.name === details[:name]
