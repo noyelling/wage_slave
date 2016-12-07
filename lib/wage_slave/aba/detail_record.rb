@@ -47,7 +47,7 @@ module WageSlave
         @trace_bsb            = attrs[:trace_bsb] || WageSlave.configuration.bank_code
         @trace_account        = attrs[:trace_account] || WageSlave.configuration.account_number
         @remitter             = attrs[:remitter] || WageSlave.configuration.user_name
-        @withholding_amount    = attrs[:withholding_amount].to_i || 0
+        @withholding_amount   = attrs[:withholding_amount].to_i || 0
       end
 
       def transaction_code=(code)
