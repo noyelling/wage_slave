@@ -190,14 +190,22 @@ describe WageSlave::ABA::DetailRecord do
 
     it "must have a withholding amount less than 100,000,000" do
       record  = WageSlave::ABA::DetailRecord.new(details) 
-      assert record.witholding_amount === 0
+      assert record.withholding_amount === 0
       assert record.valid? === true
 
-      record.instance_variable_set :@witholding_amount, 99_999_999
+      record.instance_variable_set :@withholding_amount, 99_999_999
       assert record.valid? === true
 
-      record.instance_variable_set :@witholding_amount, 100_000_000
+      record.instance_variable_set :@withholding_amount, 100_000_000
       assert record.valid? === false
+    end
+
+    it "will cast withholding amounts to Fixnum" do
+      details[:withholding_amount] = "2000"
+      record = WageSlave::ABA::DetailRecord.new(details)
+      assert record.withholding_amount.class == Fixnum, "class was #{record.withholding_amount.class.name} not Fixnum"
+      assert record.withholding_amount === 2000, "withholding amount not equal to fixnum 2000"
+      assert record.valid? === true
     end
 
   end
@@ -283,7 +291,7 @@ describe WageSlave::ABA::DetailRecord do
       # Size: 8
       # Char position: 113-120
       # Numeric only, shown in cents. Right justified, zero filled.
-      aba.slice(112,8).must_equal record.witholding_amount.abs.to_s.rjust(8, "0")
+      aba.slice(112,8).must_equal record.withholding_amount.abs.to_s.rjust(8, "0")
 
     end
 

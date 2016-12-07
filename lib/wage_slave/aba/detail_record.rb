@@ -33,7 +33,7 @@ module WageSlave
       ]
 
       attr_reader :bsb, :account_number, :indicator, :transaction_code, :amount, :name,
-        :lodgement_reference, :trace_bsb, :trace_account, :remitter, :witholding_amount
+        :lodgement_reference, :trace_bsb, :trace_account, :remitter, :withholding_amount
 
       def initialize(attrs={})
         @type                 = "1"
@@ -47,7 +47,7 @@ module WageSlave
         @trace_bsb            = attrs[:trace_bsb] || WageSlave.configuration.bank_code
         @trace_account        = attrs[:trace_account] || WageSlave.configuration.account_number
         @remitter             = attrs[:remitter] || WageSlave.configuration.user_name
-        @witholding_amount    = attrs[:tax_withholding] || 0
+        @withholding_amount    = attrs[:withholding_amount].to_i || 0
       end
 
       def transaction_code=(code)
@@ -137,7 +137,7 @@ module WageSlave
         # Size: 8
         # Char position: 113-120
         # Numeric only, shown in cents. Right justified, zero filled.
-        output += @witholding_amount.abs.to_s.rjust(8, "0")
+        output += @withholding_amount.abs.to_s.rjust(8, "0")
       end
 
     end

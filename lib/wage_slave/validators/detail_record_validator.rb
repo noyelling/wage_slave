@@ -48,8 +48,8 @@ module WageSlave
         with: proc { |p| p.remitter.to_s.length > 0 && p.remitter.to_s.length <= 16 },
         msg: "is required and must not be longer than 16 characters"
 
-      validates :witholding_amount,
-        with: proc { |p| p.witholding_amount <= 99_999_999 },
+      validates :withholding_amount,
+        with: proc { |p| p.withholding_amount <= 99_999_999 },
         msg: "must be less than 100,000,000"
 
     end
