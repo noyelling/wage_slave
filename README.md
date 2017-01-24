@@ -83,3 +83,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/noyell
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+## Author
+
+Wage slave is developed and actively maintained by No Yelling, a (Melbourne driving school)[https://www.noyelling.com.au/melbourne].
+
