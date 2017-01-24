@@ -85,5 +85,5 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 ## Author
 
-Wage slave is developed and actively maintained by No Yelling, a (Melbourne driving school)[https://www.noyelling.com.au/melbourne].
+Wage slave is developed and actively maintained by No Yelling, a [Melbourne driving school](https://www.noyelling.com.au/melbourne).
 
